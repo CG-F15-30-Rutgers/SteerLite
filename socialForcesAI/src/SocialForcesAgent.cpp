@@ -772,11 +772,15 @@ bool SocialForcesAgent::runLongTermPlanning()
 	std::vector<Util::Point> agentPath;
 	Util::Point pos =  position();
 
-	if ( !gSpatialDatabase->findPath(pos, _goalQueue.front().targetLocation,
+	if(!astar.computePath(agentPath, pos, _goalQueue.front().targetLocation, gSpatialDatabase)) {
+		//std::cout << "No path found" << std::endl;
+		return false;
+	}
+	/*if ( !gSpatialDatabase->findPath(pos, _goalQueue.front().targetLocation,
 			agentPath, (unsigned int) 50000))
 	{
 		return false;
-	}
+	}*/
 
 	for  (int i=1; i <  agentPath.size(); i++)
 	{

@@ -16,7 +16,7 @@
 #include "planning/AStarPlanner.h"
 
 
-#define COLLISION_COST  1000
+#define COLLISION_COST  2000
 #define GRID_STEP  1
 #define OBSTACLE_CLEARANCE 1
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
@@ -26,7 +26,7 @@
 #define MANHATTAN false
 //0 for no pref, 1 for higher preferred, -1 for lower preferred
 #define GFAVOR 0
-#define DIAGMOD false
+#define DIAGMOD true
 #define HEURISTICWEIGHT 1.0
 
 namespace SteerLib
