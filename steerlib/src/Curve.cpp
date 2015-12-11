@@ -260,7 +260,6 @@ Vector Curve::getCatmullTangent(const unsigned int currPoint) {
 		newTangent.x = getCatmullTangent1D(0, controlPoints[currPoint].position.x, controlPoints[currPoint+1].position.x, controlPoints[currPoint+2].position.x, controlPoints[currPoint].time, controlPoints[currPoint+1].time, controlPoints[currPoint+2].time);
 		newTangent.y = getCatmullTangent1D(0, controlPoints[currPoint].position.y, controlPoints[currPoint+1].position.y, controlPoints[currPoint+2].position.y, controlPoints[currPoint].time, controlPoints[currPoint+1].time, controlPoints[currPoint+2].time);
 		newTangent.z = getCatmullTangent1D(0, controlPoints[currPoint].position.z, controlPoints[currPoint+1].position.z, controlPoints[currPoint+2].position.z, controlPoints[currPoint].time, controlPoints[currPoint+1].time, controlPoints[currPoint+2].time);
-		std::cout << "HERE" << std::endl;
 		return newTangent;
 	}
 

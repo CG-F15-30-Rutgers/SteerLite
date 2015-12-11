@@ -106,6 +106,7 @@ class SocialForcesAgent : public SteerLib::AgentInterface
         std::vector<Util::Point> _waypoints;
 
     private:
+	bool runSimplePlanning();
         bool runLongTermPlanning2();
         bool runLongTermPlanning();
         bool reachedCurrentWaypoint();

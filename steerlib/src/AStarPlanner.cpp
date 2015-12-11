@@ -16,7 +16,7 @@
 #include "planning/AStarPlanner.h"
 
 
-#define COLLISION_COST  2000
+#define COLLISION_COST  1000
 #define GRID_STEP  1
 #define OBSTACLE_CLEARANCE 1
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))

@@ -159,7 +159,7 @@ void SocialForcesAgent::reset(const SteerLib::AgentInitialConditions & initialCo
 		}
 	}
 
-	runLongTermPlanning();
+		runLongTermPlanning();
 
 	// std::cout << "first waypoint: " << _waypoints.front() << " agents position: " << position() << std::endl;
 	/*
@@ -252,7 +252,20 @@ Util::Vector SocialForcesAgent::calcProximityForce(float dt)
 		if((*neighbor)->isAgent()) {
 			tmp_agent = dynamic_cast<SteerLib::AgentInterface *>(*neighbor);
 			Util::Vector away_tmp = normalize(this->position() - tmp_agent->position());
-			away = away + (away_tmp * (_SocialForcesParams.sf_agent_a * exp((((this->radius() + tmp_agent->radius()) - (this->position() - tmp_agent->position()).length()) / _SocialForcesParams.sf_agent_b))));
+			if(tmp_agent->velocity() * velocity() < 0 && velocity() * (tmp_agent->position() - position()) < 0) {
+				std::cout << "behind agent" << std::endl;
+			}
+			else if(tmp_agent->velocity() * velocity() > velocity().length() && velocity() * (tmp_agent->position() - position()) > 0) {
+				std::cout << "agent in front is faster" << std::endl;
+			}
+			else {
+				 Util::Vector newAway = (away_tmp * (_SocialForcesParams.sf_agent_a * exp((((this->radius() + tmp_agent->radius()) - (this->position() - tmp_agent->position()).length()) / _SocialForcesParams.sf_agent_b))));
+				if(tmp_agent->radius() > this->radius()) {
+					std::cout << "larger agent" << std::endl;
+					newAway = newAway * (tmp_agent->radius() / this->radius());
+				}	
+				away = away + newAway;
+			}
 		}
 
 		else {
@@ -644,8 +657,15 @@ void SocialForcesAgent::updateAI(float timeStamp, float dt, unsigned int frameNu
 		alpha=0;
 	}
 
-	Util::Vector acceleration = (prefForce + repulsionForce + proximityForce + slidingForce) / AGENT_MASS;
+	Util::Vector acceleration = (prefForce + repulsionForce + proximityForce) / AGENT_MASS;
 	_velocity = velocity() + acceleration * dt;
+	if(Util::Vector(velocity().z*-1, 0, velocity().x) * goalDirection == 0) {
+		std::cout << "stuck " << goalDirection << " " << _velocity << " ";
+		Util::Vector tanVel = Util::Vector(velocity().z*-1, 0 , velocity().x);
+		tanVel = normalize(tanVel);
+		_velocity = velocity() + tanVel;
+		std::cout << _velocity << std::endl;
+	}
 	_velocity = clamp(velocity(), _SocialForcesParams.sf_max_speed);
 	_velocity.y=0.0f;
 #ifdef _DEBUG_
@@ -781,6 +801,32 @@ bool SocialForcesAgent::runLongTermPlanning()
 	{
 		return false;
 	}*/
+
+	for  (int i=1; i <  agentPath.size(); i++)
+	{
+		_midTermPath.push_back(agentPath.at(i));
+		if ((i % FURTHEST_LOCAL_TARGET_DISTANCE) == 0)
+		{
+			_waypoints.push_back(agentPath.at(i));
+		}
+	}
+	return true;
+}
+
+bool SocialForcesAgent::runSimplePlanning()
+{
+	_midTermPath.clear();
+	//==========================================================================
+
+	// run the main a-star search here
+	std::vector<Util::Point> agentPath;
+	Util::Point pos =  position();
+
+	if ( !gSpatialDatabase->findPath(pos, _goalQueue.front().targetLocation,
+			agentPath, (unsigned int) 50000))
+	{
+		return false;
+	}
 
 	for  (int i=1; i <  agentPath.size(); i++)
 	{
