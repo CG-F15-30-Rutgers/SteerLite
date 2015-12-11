@@ -52,6 +52,7 @@ namespace SocialForcesGlobals
 	float sf_wall_b;
 	float sf_wall_a;
 	float sf_max_speed;
+	float sf_size_force;
 
 	PhaseProfilers * gPhaseProfilers;
 }
@@ -96,6 +97,7 @@ void SocialForcesAIModule::init( const SteerLib::OptionDictionary & options, Ste
 	sf_wall_b = WALL_B;
 	sf_wall_a = WALL_A;
 	sf_max_speed = MAX_SPEED;
+	sf_size_force = SIZE_FACTOR;
 
 
 	SteerLib::OptionDictionary::const_iterator optionIter;
@@ -155,6 +157,10 @@ void SocialForcesAIModule::init( const SteerLib::OptionDictionary & options, Ste
 		else if ((*optionIter).first == "sf_max_speed")
 		{
 			value >> sf_max_speed;
+		}
+		else if ((*optionIter).first == "sf_size_force")
+		{
+			value >> sf_size_force;
 		}
 		else if ((*optionIter).first == "ailogFileName")
 		{

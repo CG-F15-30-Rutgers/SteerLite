@@ -27,7 +27,7 @@
 //0 for no pref, 1 for higher preferred, -1 for lower preferred
 #define GFAVOR 0
 #define DIAGMOD true
-#define HEURISTICWEIGHT 1.0
+#define HEURISTICWEIGHT 2.0
 
 namespace SteerLib
 {
@@ -242,6 +242,7 @@ namespace SteerLib
 
 		bool AStarPlanner::computePath(std::vector<Util::Point>& agent_path,  Util::Point start, Util::Point goal, SteerLib::GridDatabase2D * _gSpatialDatabase, bool append_to_path)
 	{
+		std::cout << goal << std::endl;
 		gSpatialDatabase = _gSpatialDatabase;
 
 		//Build node trees/sets

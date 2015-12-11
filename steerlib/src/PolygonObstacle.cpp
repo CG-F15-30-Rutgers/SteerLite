@@ -45,10 +45,10 @@ PolygonObstacle::PolygonObstacle(std::vector<Util::Point> points, float traversa
 
 	_bounds.ymin = ymin;
 	_bounds.ymax = ymax;
-	_bounds.xmin = xmin+(xmax-xmin)/8;
-	_bounds.xmax = xmax-(xmax-xmin)/8;
-	_bounds.zmin = zmin+(zmax-zmin)/8;
-	_bounds.zmax = zmax-(zmax-zmin)/8;
+	_bounds.xmin = xmin;
+	_bounds.xmax = xmax;
+	_bounds.zmin = zmin;
+	_bounds.zmax = zmax;
 
 	// TODO make parameter
 	isConvex_ = true;

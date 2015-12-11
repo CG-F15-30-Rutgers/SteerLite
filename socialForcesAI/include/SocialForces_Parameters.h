@@ -29,6 +29,7 @@
 #define AGENT_A 25.0f // 2000 / 80 Yep its just called A... inverse proximity force importance
 #define WALL_B 0.08f //  inverse proximity force importance
 #define WALL_A 3000.0f //  proximity force importance
+#define SIZE_FACTOR 1.0f // larger agent importance
 #define FURTHEST_LOCAL_TARGET_DISTANCE 45
 
 
@@ -83,6 +84,7 @@ namespace SocialForcesGlobals {
 	extern float sf_wall_b;
 	extern float sf_wall_a;
 	extern float sf_max_speed;
+	extern float sf_size_force;
 
 
 
@@ -106,6 +108,7 @@ public:
 	float sf_wall_b;
 	float sf_wall_a;
 	float sf_max_speed;
+	float sf_size_force;
 
 	void setParameters(SteerLib::Behaviour behavior)
 	{
@@ -166,6 +169,10 @@ public:
 			{
 				value >> sf_max_speed;
 			}
+			else if(p_key == "sf_size_force")
+			{
+				value >> sf_size_force;
+			}
 		}
 		
 	}
@@ -184,6 +191,7 @@ inline std::ostream &operator<<(std::ostream & out, const SocialForcesParameters
 	out << "sf_wall_b: " << p.sf_wall_b << std::endl;
 	out << "sf_wall_a: " << p.sf_wall_a << std::endl;
 	out << "sf_max_speed: " << p.sf_max_speed;
+	out << "sf_size_force: " << p.sf_size_force;
 
 	return out;
 }

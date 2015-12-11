@@ -48,6 +48,7 @@ SocialForcesAgent::SocialForcesAgent()
 	_SocialForcesParams.sf_wall_b = sf_wall_b;
 	_SocialForcesParams.sf_wall_a = sf_wall_a;
 	_SocialForcesParams.sf_max_speed = sf_max_speed;
+	_SocialForcesParams.sf_size_force = sf_size_force;
 
 	_enabled = false;
 }
@@ -159,6 +160,7 @@ void SocialForcesAgent::reset(const SteerLib::AgentInitialConditions & initialCo
 		}
 	}
 
+		//runSimplePlanning();
 		runLongTermPlanning();
 
 	// std::cout << "first waypoint: " << _waypoints.front() << " agents position: " << position() << std::endl;
@@ -274,7 +276,7 @@ Util::Vector SocialForcesAgent::calcProximityForce(float dt)
 				 Util::Vector newAway = (away_tmp * (_SocialForcesParams.sf_agent_a * exp((((this->radius() + tmp_agent->radius()) - (this->position() - tmp_agent->position()).length()) / _SocialForcesParams.sf_agent_b))));
 				if(tmp_agent->radius() > this->radius()) {
 					std::cout << "larger agent" << std::endl;
-					newAway = newAway * (tmp_agent->radius() / this->radius());
+					newAway = newAway * (tmp_agent->radius() / this->radius()) * _SocialForcesParams.sf_size_force;
 				}	
 				away = away + newAway;
 			}
